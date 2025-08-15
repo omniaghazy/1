@@ -50,7 +50,7 @@ if st.button('Predict Cluster'):
     st.success(f'The new customer belongs to Cluster: {predicted_cluster[0]}')
     st.write("You can interpret this cluster based on our previous analysis.")
 
-!pip install pyngrok
+# !pip install pyngrok
 
 # from pyngrok import ngrok
 # import time

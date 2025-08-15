@@ -22,6 +22,17 @@ with open('kmeans_model.pkl', 'rb') as f:
 with open('scaler.pkl', 'rb') as f:
     scaler = pickle.load(f)
 
+cluster_descriptions = {
+    0: "High-Spending Restaurants & Hotels",
+    1: "Small Grocery Stores",
+    2: "Large Supermarkets / Major Retailers",
+    3: "Low-Spending / Occasional Customers",
+    4: "Average-Spending Customers",
+    5: "Small Convenience Stores",
+}
+
+
+
 # --- Set up the Streamlit app interface ---
 st.title('Wholesale Customer Clustering App')
 st.write('Enter the spending data for a new customer to predict their cluster.')
@@ -44,11 +55,13 @@ if st.button('Predict Cluster'):
     new_data_scaled = scaler.transform(new_data_log)
 
     # Predict the cluster using the loaded model
-    predicted_cluster = kmeans_model.predict(new_data_scaled)
+    predicted_cluster_id = kmeans_model.predict(new_data_scaled)[0]
+
+    # Get the description from our dictionary
+    cluster_description = cluster_descriptions.get(predicted_cluster_id, "Unknown Cluster")
 
     # Display the result
-    st.success(f'The new customer belongs to Cluster: {predicted_cluster[0]}')
-    st.write("You can interpret this cluster based on our previous analysis.")
+    st.success(f'The new customer belongs to Cluster: {predicted_cluster_id} - {cluster_description}')
 
 # !pip install pyngrok
 
